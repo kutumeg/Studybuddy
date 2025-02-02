@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Wrap - Your Learning Recap</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --pink: #FFB6C1;
+            --lavender: #E6E6FA;
+            --peach: #FFDAB9;
+            --mint: #98FF98;
+            --text: #6A5ACD;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: var(--lavender);
+            color: var(--text);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .study-form, .wrap-report, .friends-section {
+            background: var(--pink);
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        input, select, button {
+            padding: 12px;
+            margin: 8px;
+            border-radius: 25px;
+            border: none;
+            font-size: 16px;
+            background: white;
+        }
+
+        button {
+            background: var(--mint);
+            color: var(--text);
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+            background: var(--peach);
+        }
+
+        .leaderboard {
+            background: var(--lavender);
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin-top: 1rem;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        h1, h2 {
+            text-align: center;
+            color: var(--text);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📚 Study Buddy</h1>
+        
+        <div class="study-form">
+            <h2>➕ Add Study Session</h2>
+            <form id="sessionForm">
+                <input type="text" id="subject" placeholder="Subject/Course" required>
+                <input type="number" id="duration" placeholder="Duration (hours)" min="0.5" step="0.5" required>
+                <input type="date" id="date" required>
+                <select id="mood">
+                    <option value="😊">😊 Focused</option>
+                    <option value="🧠">🧠 Deep Work</option>
+                    <option value="😩">😩 Struggling</option>
+                    <option value="🚀">🚀 Productive</option>
+                </select>
+                <button type="submit">Add Session</button>
+            </form>
+        </div>
+
+        <div class="friends-section">
+            <h2>👬 Study with Friends</h2>
+            <p>Share this link with a friend to compare progress:</p>
+            <input type="text" id="friendLink" readonly>
+            <button onclick="generateFriendLink()">Generate Link</button>
+        </div>
+
+        <div class="wrap-report" id="report" style="display: none;">
+            <h2>✨ Your Week in Learning</h2>
+            <canvas id="subjectChart"></canvas>
+            <canvas id="dailyChart"></canvas>
+            <div class="leaderboard">
+                <h3>🏆 Leaderboard</h3>
+                <ul id="leaderboardList"></ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let sessions = JSON.parse(localStorage.getItem('studySessions')) || [];
+        let friendsData = JSON.parse(localStorage.getItem('friendsData')) || [];
+        let subjectChart, dailyChart;
+
+        document.getElementById('sessionForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const newSession = {
+                subject: document.getElementById('subject').value,
+                duration: parseFloat(document.getElementById('duration').value),
+                mood: document.getElementById('mood').value,
+                date: document.getElementById('date').value
+            };
+
+            sessions.push(newSession);
+            localStorage.setItem('studySessions', JSON.stringify(sessions));
+            generateReport();
+            e.target.reset();
+        });
+
+        function generateFriendLink() {
+            const userId = Math.random().toString(36).substring(2, 10);
+            const link = `${window.location.origin}?friend=${userId}`;
+            document.getElementById('friendLink').value = link;
+        }
+
+        function generateReport() {
+            document.getElementById('report').style.display = 'block';
+            const subjects = [...new Set(sessions.map(s => s.subject))];
+            const subjectData = subjects.map(subject => 
+                sessions.filter(s => s.subject === subject).reduce((sum, s) => sum + s.duration, 0)
+            );
+            const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            const dailyData = new Array(7).fill(0);
+            sessions.forEach(session => {
+                const day = new Date(session.date).getDay();
+                dailyData[day] += session.duration;
+            });
+            if(subjectChart) subjectChart.destroy();
+            subjectChart = new Chart(document.getElementById('subjectChart'), {
+                type: 'doughnut',
+                data: {
+                    labels: subjects,
+                    datasets: [{ data: subjectData, backgroundColor: ['#FFB6C1', '#E6E6FA', '#98FF98', '#FFDAB9', '#DDA0DD'] }]
+                }
+            });
+            if(dailyChart) dailyChart.destroy();
+            dailyChart = new Chart(document.getElementById('dailyChart'), {
+                type: 'line',
+                data: {
+                    labels: days,
+                    datasets: [{ label: 'Study Hours', data: dailyData, borderColor: '#6A5ACD', backgroundColor: 'rgba(255,182,193,0.2)', tension: 0.4, fill: true }]
+                }
+            });
+        }
+        if(sessions.length > 0) generateReport();
+    </script>
+</body>
+</html>
