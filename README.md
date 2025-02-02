@@ -23,19 +23,12 @@
 ## Technical Details
 ### Technologies/Components Used
 For Software:
-- [HTML (for structure)]
+- [HTML ]
 
 
 ### Implementation
 For Software:VSCODE
-# Installation
-[commands]
 
-# Run
-[commands]
-
-### Project Documentation
-For Software:
 
 # Screenshots (Add at least 3)
 ![alt text](./ASSETS/SS1.png)
@@ -47,31 +40,6 @@ For Software:
 ![alt text](/ASSETS/SS3.png)
 *Add caption explaining what this shows*
 
-# Diagrams
-![Workflow](Add your workflow/architecture diagram here)
-*Add caption explaining your workflow*
-
-For Hardware:
-
-# Schematic & Circuit
-![Circuit](Add your circuit diagram here)
-*Add caption explaining connections*
-
-![Schematic](Add your schematic diagram here)
-*Add caption explaining the schematic*
-
-# Build Photos
-![Team](Add photo of your team here)
-
-
-![Components](Add photo of your components here)
-*List out all components shown*
-
-![Build](Add photos of build process here)
-*Explain the build steps*
-
-![Final](Add photo of final product here)
-*Explain the final build*
 
 ### Project Demo
 # Video
@@ -79,8 +47,6 @@ For Hardware:
 [This code creates a Study Tracking Web App where users can log their study sessions, track progress, and compare with friends. It features a form where users enter the subject, duration, date, and mood for each session, storing the data in localStorage. A report section visualizes study patterns using Chart.js, displaying a doughnut chart for study subjects and a line chart for daily study hours. Users can also generate a study buddy link to share with friends, although it currently doesn’t sync data between users. The app provides a leaderboard, tracking total study hours, and enhances user experience with a clean, responsive UI.]
 *Explain what the video demonstrates*
 
-# Additional Demos
-[Add any extra demo materials/links]
 
 ## Team Contributions
 - [Megha Sebastian]: [100%]
