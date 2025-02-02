@@ -50,7 +50,7 @@ For Software:VSCODE
 
 ## Team Contributions
 - [Megha Sebastian]: [100%]
-]
+
 
 ---
 Made with ❤️ at TinkerHub
