@@ -1,4 +1,4 @@
-# [Project Name] 🎯
+# STUDYBUDDY 🎯
 
 
 ## Basic Details
@@ -49,7 +49,7 @@ For Software:VSCODE
 
 
 ## Team Contributions
-[Megha Sebastian]: [100%]
+  [Megha Sebastian]: [100%]
 
 
 ---
